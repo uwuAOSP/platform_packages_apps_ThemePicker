@@ -74,20 +74,7 @@ class ClockRegistryProvider(
     fun get() = clockRegistry
 
     private fun createPluginManager(context: Context): PluginManager {
-        val pluginConfig =
-            PluginManager.Config(
-                listOf(
-                    // TODO(b/452686190): Combine definition w/ SystemUI
-                    "com.android.systemui.clocks.bignum",
-                    "com.android.systemui.clocks.calligraphy",
-                    "com.android.systemui.clocks.growth",
-                    "com.android.systemui.clocks.handwritten",
-                    "com.android.systemui.clocks.inflate",
-                    "com.android.systemui.clocks.metro",
-                    "com.android.systemui.clocks.numoverlap",
-                    "com.android.systemui.clocks.weather",
-                )
-            )
+        val pluginConfig = PluginManager.Config(getPrivilegedPluginPackages(context))
 
         val instanceFactory =
             PluginInstance.Factory(
@@ -132,6 +119,27 @@ class ClockRegistryProvider(
             pluginEnabler,
             PluginPrefs(context),
             pluginConfig,
+        )
+    }
+
+    private fun getPrivilegedPluginPackages(context: Context): List<String> {
+        val resId = context.resources.getIdentifier("config_pluginAllowlist", "array", "android")
+        if (resId != 0) {
+            return context.resources.getStringArray(resId).toList()
+        }
+
+        return listOf(
+            "com.android.systemui",
+            "com.android.systemui.clocks.bignum",
+            "com.android.systemui.clocks.calligraphy",
+            "com.android.systemui.clocks.flex",
+            "com.android.systemui.clocks.growth",
+            "com.android.systemui.clocks.handwritten",
+            "com.android.systemui.clocks.inflate",
+            "com.android.systemui.clocks.metro",
+            "com.android.systemui.clocks.numoverlap",
+            "org.uwuaosp.clock",
+            "com.android.systemui.clocks.weather",
         )
     }
 }

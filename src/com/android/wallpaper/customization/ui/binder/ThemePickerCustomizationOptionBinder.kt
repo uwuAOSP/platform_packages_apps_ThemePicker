@@ -271,8 +271,8 @@ constructor(private val defaultCustomizationOptionsBinder: DefaultCustomizationO
         val optionAppIcons: View? =
             if (customizationOptionsData.isIconCustomizationAvailable) {
                 homeScreenCustomizationOptionEntries
-                    .first { it.first == ThemePickerHomeCustomizationOption.APP_ICONS }
-                    .second
+                    .firstOrNull { it.first == ThemePickerHomeCustomizationOption.APP_ICONS }
+                    ?.second
             } else null
         val optionAppIconsDescription: TextView? =
             optionAppIcons?.requireViewById(R.id.option_entry_description)
@@ -284,10 +284,10 @@ constructor(private val defaultCustomizationOptionsBinder: DefaultCustomizationO
         if (customizationOptionsData.isGridCustomizationAvailable) {
             optionGrid =
                 homeScreenCustomizationOptionEntries
-                    .first { it.first == ThemePickerHomeCustomizationOption.GRID }
-                    .second
-            optionGridDescription = optionGrid.requireViewById(R.id.option_entry_description)
-            optionGridIcon = optionGrid.requireViewById(R.id.option_entry_icon)
+                    .firstOrNull { it.first == ThemePickerHomeCustomizationOption.GRID }
+                    ?.second
+            optionGridDescription = optionGrid?.requireViewById(R.id.option_entry_description)
+            optionGridIcon = optionGrid?.requireViewById(R.id.option_entry_icon)
         }
 
         val optionColorContrast: View =
@@ -372,7 +372,7 @@ constructor(private val defaultCustomizationOptionsBinder: DefaultCustomizationO
                     }
                 }
 
-                if (customizationOptionsData.isIconCustomizationAvailable) {
+                if (optionAppIcons != null) {
                     launch {
                         optionsViewModel.onCustomizeIconsClicked.collect {
                             optionAppIcons?.setOnClickListener { _ -> it?.invoke() }
@@ -442,7 +442,7 @@ constructor(private val defaultCustomizationOptionsBinder: DefaultCustomizationO
                     }
                 }
 
-                if (customizationOptionsData.isGridCustomizationAvailable) {
+                if (optionGrid != null) {
                     launch {
                         optionsViewModel.onCustomizeShapeGridClicked.collect {
                             optionGrid?.setOnClickListener { _ -> it?.invoke() }

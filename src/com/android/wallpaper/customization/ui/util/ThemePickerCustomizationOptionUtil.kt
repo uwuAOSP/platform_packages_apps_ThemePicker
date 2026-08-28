@@ -42,7 +42,6 @@ constructor(private val defaultCustomizationOptionUtil: DefaultCustomizationOpti
         SCREEN_SAVER,
         PACK_THEME,
         COLORS,
-        COLOR_CONTRAST,
         APP_ICONS,
         GRID,
     }

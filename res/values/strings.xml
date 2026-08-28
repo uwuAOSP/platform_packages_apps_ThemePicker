@@ -523,26 +523,6 @@
     configure the lock screen shortcut buttons that appear on the device without unlocking.
     [CHAR LIMIT=16].
     -->
-    <string name="color_contrast_section_title">Color contrast</string>
-
-    <!--
-    Label for color contrast settings button with default contrast setting.
-    [CHAR LIMIT=16].
-    -->
-    <string name="color_contrast_default_title">Default</string>
-
-    <!--
-    Label for color contrast settings button with medium contrast setting.
-    [CHAR LIMIT=16].
-    -->
-
-    <string name="color_contrast_medium_title">Medium</string>
-
-    <!--
-    Label for color contrast settings button with maximum contrast setting.
-    [CHAR LIMIT=16].
-    -->
-    <string name="color_contrast_high_title">High</string>
 
     <!--
     Template for text that shows the names of two currently-selected lock screen shortcuts on the

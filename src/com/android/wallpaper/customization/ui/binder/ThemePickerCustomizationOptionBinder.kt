@@ -53,7 +53,6 @@ import com.android.customization.picker.icon.ui.binder.ShapeIconViewBinder
 import com.android.customization.picker.icon.ui.util.IconStyleViewUtil
 import com.android.customization.picker.quickaffordance.ui.binder.ShortcutFloatingSheetBinder
 import com.android.customization.picker.quickaffordance.ui.compose.ShortcutsFloatingSheet
-import com.android.customization.picker.settings.ui.binder.ColorContrastSectionViewBinder2
 import com.android.systemui.plugins.keyguard.ui.clocks.ClockAxisStyle
 import com.android.themepicker.R
 import com.android.wallpaper.config.BaseFlags
@@ -83,7 +82,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.DisposableHandle
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.launch
@@ -290,11 +288,6 @@ constructor(private val defaultCustomizationOptionsBinder: DefaultCustomizationO
             optionGridIcon = optionGrid?.requireViewById(R.id.option_entry_icon)
         }
 
-        val optionColorContrast: View =
-            homeScreenCustomizationOptionEntries
-                .first { it.first == ThemePickerHomeCustomizationOption.COLOR_CONTRAST }
-                .second
-        optionColorContrast.setOnClickListener { navigateToColorContrastSettingsActivity.invoke() }
         val backgroundScope =
             CoroutineScope(Dispatchers.IO + Job() + CoroutineName(BACKGROUND_CONTEXT))
 
@@ -455,22 +448,6 @@ constructor(private val defaultCustomizationOptionsBinder: DefaultCustomizationO
                             optionGridDescription?.let { TextViewBinder.bind(it, gridOption.text) }
                             gridOption.payload?.let { optionGridIcon?.setImageDrawable(it) }
                         }
-                    }
-                }
-
-                launch {
-                    var binding: ColorContrastSectionViewBinder2.Binding? = null
-                    optionsViewModel.colorContrastSectionViewModel.contrast.collectLatest { contrast
-                        ->
-                        binding?.destroy()
-                        binding =
-                            ColorContrastSectionViewBinder2.bind(
-                                view = optionColorContrast,
-                                contrast = contrast,
-                                colorUpdateViewModel = colorUpdateViewModel,
-                                shouldAnimateColor = isOnMainScreen,
-                                lifecycleOwner = lifecycleOwner,
-                            )
                     }
                 }
 

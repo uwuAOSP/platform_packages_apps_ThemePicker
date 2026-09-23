@@ -23,6 +23,10 @@
     <uses-permission android:name="android.permission.SET_WALLPAPER_DIM_AMOUNT" />
     <uses-permission android:name="android.permission.UPDATE_THEME_SETTINGS" />
 
+    <permission
+        android:name="com.android.wallpaper.permission.ACCESS_RECENT_WALLPAPERS"
+        android:protectionLevel="signature" />
+
     <queries>
         <package android:name="android"/>
         <package android:name="com.android.launcher3"/>
@@ -113,7 +117,13 @@
                  <action android:name="android.intent.action.SET_WALLPAPER"/>
                  <category android:name="android.intent.category.DEFAULT"/>
              </intent-filter>
-        </activity-alias>
+         </activity-alias>
+
+        <provider
+            android:name="com.android.wallpaper.picker.RecentWallpaperContentProvider"
+            android:authorities="com.google.android.apps.wallpaper.recents"
+            android:exported="true"
+            android:permission="com.android.wallpaper.permission.ACCESS_RECENT_WALLPAPERS" />
 
     </application>
 </manifest>
